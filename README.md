@@ -5,4 +5,3 @@ The mini crossword oyununda ki ip uçlarını çekip hem ekrana yazdırmak hem d
 How to install
 pip install requests
 pip install BeautifulSoup4
-pip install pandas

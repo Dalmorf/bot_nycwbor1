@@ -47,4 +47,3 @@ print("> === ",baslik[1]," ===")
 for i in range(5,10):
     print("> ",sayi[i],". ",ipucu[i])
 
-.

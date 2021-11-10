@@ -11,9 +11,9 @@ response = requests.get(url)
 try:
     html_content = response.content
 except Exception():
-    logger.exception("Content alınamadı.")
+    sys.stdout.write("Content alınamadı.\n")
 else:
-    sys.stdout.writelines("Content alındı.")
+    sys.stdout.write("Content alındı.\n")
 
 soup = BeautifulSoup(html_content,"html.parser")
 baslik = soup.find_all("h3",{"class":"ClueList-title--1-3oW"})
@@ -42,8 +42,14 @@ data = {
         }
     }
 
-with open('data.json', 'a') as json_dosya:
-  json.dump(data, json_dosya, indent=4)
+try:
+    with open('data.json', 'a') as json_dosya:
+        json.dump(data, json_dosya, indent=4)
+except Exception():
+    sys.stdout.write("Json dosyası oluşturulurken hata oldu.\n")
+else:
+    sys.stdout.write("Json dosyası oluşturuldu.\n")
+
 
 print("> === ",baslik[0]," ===")
 for i in range(0,5):

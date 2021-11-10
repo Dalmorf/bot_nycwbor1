@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import logging
 import sys
+import datetime
 
 url = "https://www.nytimes.com/crosswords/game/mini"
 response = requests.get(url)
@@ -12,7 +13,7 @@ try:
 except Exception():
     logger.exception("Content alınamadı.")
 else:
-    sys.stdout.write("Content alındı.")
+    sys.stdout.writelines("Content alındı.")
 
 soup = BeautifulSoup(html_content,"html.parser")
 baslik = soup.find_all("h3",{"class":"ClueList-title--1-3oW"})
@@ -26,14 +27,18 @@ for i in range(len(sayi)):
     sayi[i] = (sayi[i].text).strip("\n").strip()
     ipucu[i] = (ipucu[i].text).strip("\n").strip()    
 
+date = datetime.datetime.now()
+
 data = {
-        baslik[0]:{
-            "number":[sayi[0],sayi[1],sayi[2],sayi[3],sayi[4]],
-            "string":[ipucu[0],ipucu[1],ipucu[2],ipucu[3],ipucu[4]]
-        },
-        baslik[1]:{
-            "number":[sayi[5],sayi[6],sayi[7],sayi[8],sayi[9]],
-            "string":[ipucu[5],ipucu[6],ipucu[7],ipucu[8],ipucu[9]]
+        str(date): {
+            baslik[0]:{
+                "number":[sayi[0],sayi[1],sayi[2],sayi[3],sayi[4]],
+                "string":[ipucu[0],ipucu[1],ipucu[2],ipucu[3],ipucu[4]]
+            },
+            baslik[1]:{
+                "number":[sayi[5],sayi[6],sayi[7],sayi[8],sayi[9]],
+                "string":[ipucu[5],ipucu[6],ipucu[7],ipucu[8],ipucu[9]]
+            }
         }
     }
 

@@ -1,19 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 import json
-import logging
-import sys
 
 url = "https://www.nytimes.com/crosswords/game/mini"
 response = requests.get(url)
-
-try:
-    html_content = response.content
-except Exception():
-    logger.exception("Content alınamadı.")
-else:
-    sys.stdout.write("Content alındı.")
-    
+html_content = response.content
 soup = BeautifulSoup(html_content,"html.parser")
 baslik = soup.find_all("h3",{"class":"ClueList-title--1-3oW"})
 sayi = soup.find_all("span",{"class":"Clue-label--2IdMY"})
@@ -37,8 +28,8 @@ data = {
         }
     }
 
-with open('data.json', 'a') as json_dosya:
-  json.dump(data, json_dosya, indent=4)
+with open('data.json', 'w') as json_dosya:
+  json.dump(data, json_dosya)
 
 print("> === ",baslik[0]," ===")
 for i in range(0,5):

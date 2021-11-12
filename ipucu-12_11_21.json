@@ -1,0 +1,34 @@
+{
+    "Across": {
+        "number": [
+            "1",
+            "6",
+            "7",
+            "8",
+            "9"
+        ],
+        "string": [
+            "Plays 18 holes",
+            "Relative by marriage",
+            "Washington is the only one named for a president",
+            "No longer wild",
+            "Word that fills both blanks of \"Call a ___ a ___\""
+        ]
+    },
+    "Down": {
+        "number": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+        ],
+        "string": [
+            "Basic ideas",
+            "How the house beer is usually served",
+            "Pack animal of the Incas",
+            "Meant to be",
+            "Neighbor of a Norwegian"
+        ]
+    }
+}

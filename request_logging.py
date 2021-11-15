@@ -31,10 +31,10 @@ clues.extend([Clue(basliklar[1], sayilar[i], ipuclari[i]) for i in range(5,10)])
 data = [clue._asdict() for clue in clues]
 
 date = datetime.datetime.now()
-fileName = "ipucu-"+date.strftime("%d_%m_%y")+".json"
+fileName = "ipucu-{}.json"
 
 try:
-    with open(fileName, 'w') as json_dosya:
+    with open(fileName.format(date.strftime("%d_%m_%y")), 'w') as json_dosya:
         json.dump(data, json_dosya, indent=4)
 except:
     sys.stdout.write("Json dosyası oluşturulurken hata oldu.\n")

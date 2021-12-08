@@ -34,7 +34,7 @@ date = datetime.datetime.now()
 fileName = "ipucu-{}.json"
 
 try:
-    with open(fileName.format(date.strftime("%d_%m_%y")), 'w') as json_dosya:
+    with open(fileName.format(date.strftime("%d_%m_%Y")), 'w') as json_dosya:
         json.dump(data, json_dosya, indent=4)
 except:
     sys.stdout.write("Json dosyası oluşturulurken hata oldu.\n")

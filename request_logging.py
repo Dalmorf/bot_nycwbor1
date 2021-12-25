@@ -10,35 +10,44 @@ from collections import namedtuple
 try:
     response = requests.get("https://www.nytimes.com/crosswords/game/mini")
 except requests.ConnectionError:
-    sys.stdout.write("Bağlantı kurulamadı.\n")
+    print("Bağlantı kurulamadı.")
     exit()
 else:
-    sys.stdout.write("Bağlantı kuruldu.\n")
+    print("Bağlantı kuruldu.")
 
 try:
     html_content = response.content
 except:
-    sys.stdout.write("Content alınamadı.\n")
+    print("Content alınamadı.")
 else:
-    sys.stdout.write("Content alındı.\n")
+    print("Content alındı.")
 
 soup = BeautifulSoup(html_content,"html.parser")
-basliklar = soup.find_all("h3",{"class":"ClueList-title--1-3oW"})
-sayilar = soup.find_all("span",{"class":"Clue-label--2IdMY"})
+
+#across = soup.find("div","ClueList-wrapper--3m-kd")
+#across = across.find_next_siblings("span")
+#print(len(across))
+
+
+
+sayilar = soup.select('span:is(.Clue-label--2IdMY)')
+print(len(sayilar))
+
 ipuclari = soup.find_all("span",{"Clue-text--3lZl7"})
 
-basliklar = [baslik.text for baslik in basliklar]
+
+#basliklar = [baslik.text for baslik in basliklar]
 sayilar = [sayi.text for sayi in sayilar]
 ipuclari = [ipucu.text for ipucu in ipuclari]
 
 Clue = namedtuple('Clue', ['group', 'number', 'string'])
-#clues = [Clue(basliklar[0], sayilar[i], ipuclari[i]) for i in range(5)]
-#clues.extend([Clue(basliklar[1], sayilar[i], ipuclari[i]) for i in range(5,10)])
+clues = [Clue("Across", sayilar[i], ipuclari[i]) for i in range(5)]
+clues.extend([Clue("Down", sayilar[i], ipuclari[i]) for i in range(5,10)])
 
 
 #clues = map(Clue, list(zip(itertools.repeat(basliklar[0]), sayilar, ipuclari)))
 
-clues = list(map(Clue,basliklar[0], itertools.repeat(sayilar,1), itertools.repeat(ipuclari,1)))
+#clues = list(map(Clue,basliklar[0], itertools.repeat(sayilar,1), itertools.repeat(ipuclari,1)))
 
 #clues = list(map(Clue(basliklar[0], sayilar, ipuclari)))
 
@@ -47,18 +56,18 @@ data = [clue._asdict() for clue in clues]
 date = datetime.datetime.now()
 
 try:
-    with open("ipucu-{}.json".format(date.strftime("%d_%m_%Y")), 'w', encoding='utf-8') as json_dosya:
+    with open("db/ipucu-{}.json".format(date.strftime("%d_%m_%Y")), 'w', encoding='utf-8') as json_dosya:
         json.dump(data, json_dosya, indent=4)
 except:
-    sys.stdout.write("Json dosyası oluşturulurken hata oldu.\n")
+    print("Json dosyası oluşturulurken hata oldu.")
 else:
-    sys.stdout.write("Json dosyası oluşturuldu.\n")
+    print("Json dosyası oluşturuldu.")
 
 for a in tuple(zip(sayilar,ipuclari)):
     if a[1]==ipuclari[0]:
-        print("> === ",basliklar[0]," ===")
+        print("> === Across ===")
     elif a[1]==ipuclari[5]:
-        print("> === ",basliklar[1]," ===")
+        print("> === Down ===")
     print("> ",a[0],". ",a[1])
 
 
